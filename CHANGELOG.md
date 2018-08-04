@@ -11,5 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
  - Changed enum with one variant `ParsePrimitiveTypeError::NotPrimitiveType` to empty struct `NotPrimitiveTypeError`
 ### Deprecated
 ### Removed
+ - Removed everything related to data type signatures
+ - Removed everything related to normalization
 ### Fixed
 ### Security

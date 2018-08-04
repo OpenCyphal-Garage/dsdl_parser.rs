@@ -31,16 +31,6 @@
 //! println!("{}", dsdl.get_file("uavcan.protocol.GetNodeInfo").unwrap());
 //! 
 //! ```
-//!
-//! ### Calculate data type signature
-//!
-//! ```
-//! use dsdl_parser::DSDL;
-//!
-//! let dsdl = DSDL::read("./tests/dsdl/").unwrap();
-//!
-//! assert_eq!(dsdl.data_type_signature("uavcan.protocol.GetNodeInfo").unwrap(), 0xee468a8121c46a9e);
-//! ```
 
 
 
@@ -53,7 +43,6 @@ extern crate lalrpop_util;
 
 mod ast;
 mod parser;
-mod crc;
 
 
 
@@ -90,7 +79,6 @@ pub use ast::type_definition::ServiceDefinition;
 pub use ast::line::Line;
 
 pub use ast::file::File;
-pub use ast::file::NormalizedFile;
 
 pub use ast::dsdl::DSDL;
 

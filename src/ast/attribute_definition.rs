@@ -8,11 +8,9 @@ use std::fmt::Formatter;
 
 use ast::cast_mode::CastMode;
 use ast::ty::Ty;
-use ast::ty::CompositeType;
 use ast::array::ArrayInfo;
 use ast::ident::Ident;
 use ast::lit::Lit;
-use ast::file_name::FileName;
 
 /// An attribute definition is either a `FieldDefintion` or a `ConstDefinition`
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -49,50 +47,6 @@ pub struct ConstDefinition {
     pub literal: Lit,
 }
 
-
-
-impl AttributeDefinition {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Option<Self> {
-        match self {
-            AttributeDefinition::Field(def) => Some(AttributeDefinition::Field(def.normalize(file_name))),
-            // 2. Remove all constant definitions
-            AttributeDefinition::Const(_) => None,
-        }
-    }
-}
-
-impl FieldDefinition {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Self {
-        match self {
-            // 3. Ensure that all cast specifiers are explicitly defined; if not, add default cast specifiers.
-            FieldDefinition{cast_mode: None, field_type: Ty::Primitive(primitive_type), array, name} =>
-                if primitive_type.is_void() {
-                    FieldDefinition{
-                        cast_mode: None,
-                        field_type: Ty::Primitive(primitive_type),
-                        array: array.map(|x| x.normalize()),
-                        name: name,
-                    }
-                } else {
-                    FieldDefinition{
-                        cast_mode: Some(CastMode::Saturated),
-                        field_type: Ty::Primitive(primitive_type),
-                        array: array.map(|x| x.normalize()),
-                        name: name,
-                    }
-                },
-            // 5. For nested data structures, replace all short names with full names.
-            FieldDefinition{field_type: Ty::Composite(CompositeType{namespace: None, name: type_name}), cast_mode, array, name: field_name} =>
-                FieldDefinition{
-                    cast_mode: cast_mode,
-                    field_type: Ty::Composite(CompositeType{namespace: Some(Ident::from(file_name.clone().namespace)), name: type_name}),
-                    array: array.map(|x| x.normalize()),
-                    name: field_name,
-                },
-            x => x,
-        }
-    }
-}
 
 impl From<FieldDefinition> for AttributeDefinition {
     fn from(d: FieldDefinition) -> Self {

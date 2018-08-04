@@ -4,7 +4,6 @@ use std::fmt;
 use std::fmt::Display;
 use std::fmt::Formatter;
 
-use ast::file_name::FileName;
 use ast::comment::Comment;
 use ast::attribute_definition::AttributeDefinition;
 use ast::directive::Directive;
@@ -66,22 +65,6 @@ impl Line {
     }
 
 }
-
-impl Line {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Option<Self> {
-        // 1. Remove comments.
-        match self {
-            Line::Empty => None,
-            Line::Comment(_) => None,
-            Line::Definition{definition, ..} => match definition.normalize(file_name) {
-                Some(norm_def) => Some(Line::Definition { definition: norm_def, comment: None }),
-                None => None,
-            },
-            Line::Directive{directive, ..} => Some(Line::Directive{directive, comment: None}),
-        }
-    }
-}
-
 
 impl Display for Line {
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {

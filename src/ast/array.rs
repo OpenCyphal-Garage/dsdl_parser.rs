@@ -15,16 +15,6 @@ pub enum ArrayInfo {
     Static(u64),
 }
 
-impl ArrayInfo {
-    pub(crate) fn normalize(self) -> Self {
-        // 4. For dynamic arrays, replace the max length specifier in the form [<X] to the form [<=Y]
-        match self {
-            ArrayInfo::DynamicLess(num) => ArrayInfo::DynamicLeq(num-1),
-            x => x,
-        }
-    }
-}
-
 impl Display for ArrayInfo {
     fn fmt(&self, f: &mut Formatter) -> Result<(), fmt::Error> {
         match *self {

@@ -6,7 +6,6 @@ use std::fmt;
 use std::fmt::Display;
 use std::fmt::Formatter;
 
-use ast::file_name::FileName;
 use ast::line::Line;
 
 /// A DSDL type definition.
@@ -48,34 +47,6 @@ impl From<MessageDefinition> for TypeDefinition {
 impl From<ServiceDefinition> for TypeDefinition {
     fn from(d: ServiceDefinition) -> Self {
         TypeDefinition::Service(d)
-    }
-}
-
-impl TypeDefinition {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Self {
-        match self {
-            TypeDefinition::Message(x) => TypeDefinition::Message(x.normalize(file_name)),
-            TypeDefinition::Service(x) => TypeDefinition::Service(x.normalize(file_name)),
-        }
-    }
-}
-
-impl ServiceDefinition {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Self {
-        ServiceDefinition{request: self.request.normalize(file_name), response: self.response.normalize(file_name)}
-    }
-}
-
-impl MessageDefinition {
-    pub(crate) fn normalize(self, file_name: &FileName) -> Self {
-        let mut normalized_lines = Vec::new();
-        for line in self.0 {
-            match line.normalize(file_name) {
-                Some(x) => normalized_lines.push(x),
-                None => (),
-            }
-        }
-        MessageDefinition(normalized_lines)
     }
 }
 

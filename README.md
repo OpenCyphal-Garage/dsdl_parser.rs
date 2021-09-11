@@ -1,6 +1,8 @@
-# DSDL parser [![Build Status](https://travis-ci.org/UAVCAN/dsdl_parser.rs.svg?branch=master)](https://travis-ci.org/UAVCAN/dsdl_parser.rs) [![Crates.io](https://img.shields.io/crates/v/dsdl_parser.svg)](https://crates.io/crates/dsdl_parser)
+# DSDL parser [![Crates.io](https://img.shields.io/crates/v/dsdl_parser.svg)](https://crates.io/crates/dsdl_parser)
 
-**THE PROJECT IS LOOKING FOR A NEW MAINTAINER. PLEASE COORDINATE VIA THE [UAVCAN FORUM](http://forum.uavcan.org).**
+**OBSOLETE, [REPLACED BY NUNAVUT](https://github.com/UAVCAN/nunavut/issues/209).**
+
+---
 
 > A Rust parser for the DSDL (Data structure description language) used in [uavcan](http://uavcan.org)
 
